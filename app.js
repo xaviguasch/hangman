@@ -1,57 +1,26 @@
-// Primitive value: string, number, boolean, null, undefined
-
-// Objects: objects, arrays and functions. They are all objects
 
 
 
+const puzzleEl = document.querySelector('#puzzle')
+const guessesEl = document.querySelector('#guesses')
+const game1 = new Hangman('Cat', 2)
 
-// Object: myObject --> Object.prototype --> null
-// Array: myArray --> Array.prototype --> Object.prototype --> null
-// Function: myFunc --> Function.prototype --> Object.prototype --> null
-// String: myString --> String.prototype --> Object.prototype --> null
-// Number: myNumber --> Number.prototype --> Object.prototype --> null
-// Boolean: myBoolean --> Boolean.prototype --> Object.prototype --> null
+console.log(game1);
 
 
-// const product = 'Computer'
-// console.log(product);
-// const otherProduct = new String('Phone')
-// console.log(otherProduct);
+puzzleEl.textContent = game1.getPuzzle()
+guessesEl.textContent = game1.remainingGuesses
 
 
 
 
-const Hangman = function (word, remainingGuesses) {
-  this.word = word.toLowerCase().split('')
-  this.remainingGuesses = remainingGuesses
-  this.guessedLetters = []
-}
-
-
-Hangman.prototype.getPuzzle = function () {
+window.addEventListener('keypress', function (e) {
+  const guess = String.fromCharCode(e.charCode)
+  game1.makeGuess(guess)
+  puzzleEl.textContent = game1.getPuzzle()
+  guessesEl.textContent = game1.remainingGuesses
+  console.log(game1.status);
   
-  let result = ''
-  this.word.forEach((indLetter) => {
-    if (this.guessedLetters.includes(indLetter) || indLetter === '') {
-      result += indLetter    
-    } else {
-      result += '*'
-    }
-  })
-  return result  
-}
+})
 
-Hangman.prototype.makeGuess = function (guess) {
-  guess = guess.toLowerCase()
-  const isUnique = !this.guessedLetters.includes(guess)
-  const isBadGuess = !this.word.includes(guess)
 
-  if (guess.length === 1 && isUnique) {
-    this.guessedLetters.push(guess)
-  } 
-
-  if (isUnique && isBadGuess) {
-    this.remainingGuesses--
-  }
-  
-}

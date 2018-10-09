@@ -1,57 +1,76 @@
-// 1. Display the puzzle to the browser instead of the console
-// 2. Display the guesses left to the browser instead of the console
-// 3. Separate the Hangman definition from the rest of the app code (use app.js)
 
 
 
 
-const puzzleEl = document.querySelector('#puzzle')
-const guessesEl = document.querySelector('#guesses')
-const game1 = new Hangman('Cat', 2)
+const Hangman = function (word, remainingGuesses) {
+  this.word = word.toLowerCase().split('')
+  this.remainingGuesses = remainingGuesses
+  this.guessedLetters = [],
+  this.status = 'Playing'
 
-puzzleEl.textContent = game1.getPuzzle()
-guessesEl.textContent = game1.remainingGuesses
+}
 
 
+Hangman.prototype.getPuzzle = function () {
+  let result = ''
+  this.word.forEach((indLetter) => {
+    if (this.guessedLetters.includes(indLetter) || indLetter === '') {
+      result += indLetter    
+    } else {
+      result += '*'
+    }
+  })
+  return result  
+}
 
+Hangman.prototype.makeGuess = function (guess) {
+  guess = guess.toLowerCase()
+  const isUnique = !this.guessedLetters.includes(guess)
+  const isBadGuess = !this.word.includes(guess)
 
-window.addEventListener('keypress', function (e) {
-  const guess = String.fromCharCode(e.charCode)
-  game1.makeGuess(guess)
-  puzzleEl.textContent = game1.getPuzzle()
-  guessesEl.textContent = game1.remainingGuesses
+  if (guess.length === 1 && isUnique) {
+    this.guessedLetters.push(guess)
+  } 
+  if (isUnique && isBadGuess) {
+    this.remainingGuesses--
+  }
+  this.calculateStatus()
+}
 
- 
+Hangman.prototype.calculateStatus = function () {
+  const finished = this.word.every((letter) => {
+    return this.guessedLetters.includes(letter)
+  })
+
+  // OTHER WAY OF DOING IT
+  // const lettersUnguessed = this.word.filter((letter) => {
+  //   return !this.guessedLetters.includes(letter)
+  // })
+  
+  // const finished = lettersUnguessed.length === 0
+
+  if (this.remainingGuesses === 0) {
+    this.status = 'failed'
+  } else if (finished) {
+    this.status = 'finished'
+  } else {
+    this.status = 'playing'
+  }  
+
+  return this.status
   
 
-})
-///////////////////////////////
-
-
-
-
-
-
-
-
-
-
-
-// const game2 = new Hangman('New Jersey', 4)
-
-// console.log(game2.makeGuess('w'));
-// console.log(game2.makeGuess('e'));
-// console.log(game2.makeGuess('p'));
-
-
-// console.log(game2.getPuzzle()) // *ew *e**e*
-
-// // Print remaining guesses (should be 3)
-// console.log(game2.remainingGuesses);
-// console.log(game2.guessedLetters);
-
-
-
+  //------------------------------------------
+  // ALTERNATIVE SOLUTION
+  // const wordString = this.word.join('')
+  // if (this.remainingGuesses === 0) {
+  //   this.status = 'failed'
+  // }
+  // if(this.getPuzzle() === wordString) {
+  //   this.status = 'finished'    
+  // }
+  // return this.status
+}
 
 
 
