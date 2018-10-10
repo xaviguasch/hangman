@@ -1,4 +1,7 @@
 
+
+
+
 class Hangman {
   constructor(word, remainingGuesses) {
     this.word = word.toLowerCase().split('')
@@ -7,7 +10,7 @@ class Hangman {
     this.status = 'playing'
   }
 
-  getPuzzle() {
+  get puzzle() {
     let result = ''
     this.word.forEach((indLetter) => {
       if (this.guessedLetters.includes(indLetter) || indLetter === '') {
@@ -50,7 +53,7 @@ class Hangman {
     return this.status
   }
   
-  getStatusMessage() {
+  get statusMessage() {
     if (this.status === 'playing') {
       return `You have ${this.remainingGuesses} guesses left.`    
     } else if (this.status === 'failed') {
@@ -60,6 +63,11 @@ class Hangman {
     }
   }
 }
+
+
+
+
+
 
 
 
