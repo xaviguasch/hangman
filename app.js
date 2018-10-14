@@ -28,6 +28,8 @@ getPuzzle('2').then((puzzle) => {
 
 
 
+
+
 // getCountry('US').then((country) => {
 //     console.log(`Country name: ${country.name}`);
 // }).catch((err) => {
