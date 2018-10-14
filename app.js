@@ -20,11 +20,21 @@ window.addEventListener('keypress', (e) => {
 
 // Promises
 
-getPuzzle('2').then((data) => {
-  console.log(data.puzzle)
+getPuzzle('2').then((puzzle) => {
+  console.log(puzzle)
 }).catch((err) => {
   console.log(`Error: ${err}`)
 })
+
+
+
+getCountry('US').then((country) => {
+    console.log(`Country name: ${country.name}`);
+}).catch((err) => {
+  console.log(`Error: ${err}`)
+})
+
+
 
 
 // getCountry('ES').then((countryObj) => {
