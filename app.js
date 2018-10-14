@@ -28,11 +28,20 @@ getPuzzle('2').then((puzzle) => {
 
 
 
-getCountry('US').then((country) => {
-    console.log(`Country name: ${country.name}`);
+// getCountry('US').then((country) => {
+//     console.log(`Country name: ${country.name}`);
+// }).catch((err) => {
+//   console.log(`Error: ${err}`)
+// })
+
+getLocation().then((location) => {  
+  return getCountry(location.country)
+}).then((country) => {
+  console.log(country.name)
 }).catch((err) => {
   console.log(`Error: ${err}`)
 })
+
 
 
 
